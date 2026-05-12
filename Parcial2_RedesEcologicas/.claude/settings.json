@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python crear_notebook.py)",
+      "Bash(python3 -)",
+      "Bash(python3 -c ' *)",
+      "Bash(jupyter nbconvert *)",
+      "Bash(python -c ' *)",
+      "Bash(pdflatex -interaction=nonstopmode informe_redes_ecologicas.tex)",
+      "Read(//usr/local/**)",
+      "Read(//Library/TeX/**)",
+      "Bash(find /usr /opt /Library -name \"pdflatex\" 2>/dev/null | head -5)",
+      "Read(//usr/**)",
+      "Bash(python3)"
+    ]
+  }
+}
