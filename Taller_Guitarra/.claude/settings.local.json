@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c \"import librosa; print\\('librosa ok'\\)\")",
+      "Bash(python3 -c \"import scipy; print\\('scipy ok'\\)\")",
+      "Bash(python3 -c \"import numpy; print\\('numpy ok'\\)\")",
+      "Bash(python3 -c \"import matplotlib; print\\('matplotlib ok'\\)\")",
+      "Bash(python3 -c \"import soundfile; print\\('soundfile ok'\\)\")",
+      "Bash(python3 -c ' *)",
+      "Bash(grep -v \"^$\\\\|UserWarning\\\\|FutureWarning\\\\|DeprecationWarning\\\\|warnings\\\\|audioread\")",
+      "Bash(python3 analisis_guitarra.py)",
+      "Bash(tee /tmp/guitarra_log.txt)",
+      "Bash(python3 -)",
+      "Bash(python3 analisis_paso2_fL.py)",
+      "Bash(python analisis_paso3_mu.py)",
+      "Bash(python analisis_paso2_fL.py)",
+      "Bash(python3 analisis_paso4_T.py)",
+      "Bash(pip install *)",
+      "Bash(python3 -c \"from gplearn.genetic import SymbolicRegressor; print\\('gplearn OK'\\)\")",
+      "Bash(python3 regresion_simbolica.py)",
+      "Bash(pdflatex -interaction=nonstopmode informe_guitarra.tex)",
+      "Bash(mkdir -p figurastex)",
+      "Bash(cp figuras/__TRACKED_VAR__ figurastex/__TRACKED_VAR__)"
+    ]
+  }
+}
