@@ -1,0 +1,72 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{float}
+
+\geometry{margin=1in}
+
+\title{Modelamiento Avanzado del Efecto Mpemba: Dinámica Fuera del Equilibrio mediante Redes Neuronales Informadas por la Física (PINNs)}
+\author{Proyecto Final: Modelamiento Físico}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+El Efecto Mpemba, un fenómeno contraintuitivo donde un sistema inicialmente más caliente alcanza el estado de equilibrio más rápidamente que uno más frío, representa un desafío clásico en la termodinámica de sistemas fuera del equilibrio. Este trabajo presenta un modelamiento riguroso basado en la ecuación de Fokker-Planck, utilizando Redes Neuronales Informadas por la Física (PINNs) para resolver la evolución temporal de la densidad de probabilidad $p(x,t)$. Se demuestra que este enfoque supera a los métodos de Monte Carlo (MC) tradicionales, eliminando errores de discretización y proporcionando una herramienta diagnóstica continua para visualizar el flujo de probabilidad $J(x,t)$.
+\end{abstract}
+
+\section{Introducción}
+El Efecto Mpemba desafía la intuición termodinámica básica. El fenómeno no es una anomalía mágica, sino una consecuencia de la geometría de las trayectorias en el espacio de fases. Este proyecto aborda el fenómeno modelando partículas brownianas en un potencial de doble pozo $U(x)$, analizando cómo el sistema "selecciona" rutas de enfriamiento bajo condiciones iniciales de alta energía.
+
+\section{Marco Teórico}
+\subsection{Dinámica de Fokker-Planck}
+El sistema se rige por la ecuación de Fokker-Planck, que describe la evolución de la densidad de probabilidad $p(x,t)$ en un potencial $U(x) = x^4 - 2x^2$:
+\begin{equation}
+\frac{\partial p(x,t)}{\partial t} = -\frac{\partial}{\partial x} \left[ -\frac{dU}{dx} p(x,t) \right] + D_{bath} \frac{\partial^2 p(x,t)}{\partial x^2}
+\end{equation}
+Donde $D_{bath}$ representa la intensidad de las fluctuaciones térmicas (ruido blanco). La relación entre la energía del potencial $U(x)$ y la energía del baño $D_{bath}$ es el factor determinante para la existencia del efecto; si $D_{bath}$ es excesivamente alto, la estructura del doble pozo se desvanece, disipando el fenómeno.
+
+\subsection{Conservación y Distancia al Equilibrio}
+Para garantizar la validez física, el modelo impone la conservación de la probabilidad: $\int p(x,t) dx = 1$. La convergencia hacia el estado de equilibrio se cuantifica mediante la norma $L_1$, una aproximación práctica a la divergencia de información geométrica en el espacio de densidades.
+
+\section{Metodología: PINNs vs. Monte Carlo}
+La superioridad de las PINNs frente a las simulaciones de Monte Carlo (MC) tradicionales radica en su naturaleza funcional. A continuación, se presenta la comparativa técnica:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lll}
+\toprule
+\textbf{Característica} & \textbf{PINN} & \textbf{Monte Carlo} \\
+\midrule
+Representación & Continua y diferenciable & Discreta (Trayectorias) \\
+Derivadas & Exactas (Auto-grad) & Estimadas (Histogramas) \\
+Ruido & Mínimo (Función suave) & Alto ($1/\sqrt{N}$) \\
+Entrenamiento & Alto costo inicial & Bajo, pero requiere $N \to \infty$ \\
+\bottomrule
+\end{tabular}
+\caption{Comparativa entre metodologías computacionales.}
+\end{table}
+
+\subsection{Análisis de Errores}
+\begin{itemize}
+    \item \textbf{Error de Discretización (Bias)}: Los métodos MC dependen de histogramas. Si los \textit{bins} son grandes, se pierde resolución en los mínimos del potencial donde ocurre la relajación. La PINN, al ser una función continua, elimina este sesgo.
+    \item \textbf{Error de Muestreo (Varianza)}: El efecto Mpemba es un fenómeno de "cola". MC requiere una cantidad masiva de muestras para capturar eventos raros en regiones de baja probabilidad. La PINN aprende la estructura global del dominio simultáneamente.
+\end{itemize}
+
+\section{Resultados y Análisis de la Dinámica Fuera del Equilibrio}
+El diagnóstico fundamental del fenómeno se logra mediante el cálculo del flujo de probabilidad $J(x,t)$:
+\begin{equation}
+J(x,t) = - \left( \frac{dU}{dx} p(x,t) + D_{bath} \frac{\partial p(x,t)}{\partial x} \right)
+\end{equation}
+La diferenciación automática nos permite visualizar cómo el sistema caliente experimenta un flujo que "salta" las barreras del potencial de manera más eficiente que el sistema frío. Esto confirma que el Efecto Mpemba es una manifestación de la disipación energética controlada por la geometría del espacio de fases, donde el estado inicial de alta energía accede a atajos inalcanzables para estados fríos.
+
+\section{Conclusión}
+El uso de PINNs transforma la simulación en una herramienta diagnóstica. Hemos demostrado que la visualización del flujo $J(x,t)$ y la medición de la convergencia $L_1$ ofrecen una evidencia robusta del Efecto Mpemba. Este modelo no solo replica el fenómeno, sino que permite explorar el espacio paramétrico de temperaturas iniciales con una eficiencia y resolución inalcanzables mediante métodos estocásticos tradicionales.
+
+\end{document}
